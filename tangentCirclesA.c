@@ -35,51 +35,44 @@ int main()
 	G_rgb (0,1,0); //green
 	double p[2], q[2] ;
 	G_wait_click(p);
-	G_fill_circle(p[0],p[1],2);
+	G_fill_circle(p[0],p[1],2);	//remove later
 	G_wait_click(q);
-	G_fill_circle(q[0],q[1],2) ;
-	G_line(p[0],p[1], q[0],q[1]) ;
+	G_fill_circle(q[0],q[1],2) ; //remove later
+	G_line(p[0],p[1], q[0],q[1]) ;	//remove later
 
 	double distance = sqrt((p[0]-q[0])*(p[0]-q[0]) + (p[1]-q[1])*(p[1]-q[1]));
 	double radius = distance/(2*n-2);
-	printf("distance: %lf", distance);
-
-	double testdistance = sqrt((0-599)*(0-599) + (599-0)*(599-0));
-	double testradius = testdistance/(2*n-2);
-	G_line(0,0, 599,599) ;
-	double t[2];
-	for (int i = 0; i < n; i++) {
-				t[0] = 0 + (599-0) * i/n;
-				t[1] = 0 + (599-0) * i/n;
-				G_circle (t[0], t[1], testradius);
-	}
 
 	double r[2];
 	if (p[0] < q[0]) {
-		if(p[1] < q[1]) {
+		if(p[1] < q[1]) { //point q is upper right of point p
 			for (int i = 0; i < n; i++) {
-				r[0] = p[0] + (q[0]-p[0]) * i/n;
-				r[1] = p[1] + (q[1]-p[1]) * i/n;
+				r[0] = p[0] + (q[0]-p[0]) * i/(n-1);
+				r[1] = p[1] + (q[1]-p[1]) * i/(n-1);
+				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
-		} else {
-			for (int i = 0; i < n-1; i++) {
-				r[0] = p[0] + (q[0]-p[0])/n;
-				r[1] = p[1] + (q[1]-p[1])/n;
+		} else {	// point q is lower right of point p
+			for (int i = 0; i < n; i++) {
+				r[0] = p[0] + (q[0]-p[0]) * i/(n-1);
+				r[1] = p[1] - (p[1]-q[1]) * i/(n-1);
+				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
 		}
 	} else {
-		if(p[1] < q[1]) {
-			for (int i = 0; i < n-1; i++) {
-				r[0] = p[0] + (q[0]-p[0])/n;
-				r[1] = p[1] + (q[1]-p[1])/n;
+		if(p[1] < q[1]) { // point q is upper left of point p
+			for (int i = 0; i < n; i++) {
+				r[0] = p[0] - (p[0]-q[0]) * i/(n-1);
+				r[1] = p[1] + (q[1]-p[1]) * i/(n-1);
+				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
-		} else {
-			for (int i = 0; i < n-1; i++) {
-				r[0] = p[0] + (q[0]-p[0])/n;
-				r[1] = p[1] + (q[1]-p[1])/n;
+		} else {	// point q is lower left of point p
+			for (int i = 0; i < n; i++) {
+				r[0] = p[0] - (p[0]-q[0]) * i/(n-1);
+				r[1] = p[1] - (p[1]-q[1]) * i/(n-1);
+				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
 		}
