@@ -36,9 +36,7 @@ int main()
 	G_rgb (0.318,0.5,0.732); // blue
 	double p[2], q[2] ;
 	G_wait_click(p);
-	G_fill_circle(p[0],p[1],2);
 	G_wait_click(q);
-	G_fill_circle(q[0],q[1],2) ;
 	G_line(p[0],p[1], q[0],q[1]) ;
 
 	double distance = sqrt((p[0]-q[0])*(p[0]-q[0]) + (p[1]-q[1])*(p[1]-q[1]));
@@ -49,6 +47,8 @@ int main()
 	r[1]=p[1];
 	if (p[0] < q[0]) {
 		if(p[1] < q[1]) { //point q is upper right of point p
+			G_rgb (0.318,0,0.732);
+			G_fill_circle(p[0],p[1],2);
 			for (int i = 0; i < n; i++) {
 				G_rgb (0.318,0.5*i/n,0.732);
 				s[0]=r[0];
@@ -59,7 +59,11 @@ int main()
 				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
+			G_rgb (0.318,.5,0.732);
+			G_fill_circle(q[0],q[1],2);
 		} else {	// point q is lower right of point p
+			G_rgb (0.318,0,0.732);
+			G_fill_circle(p[0],p[1],2);
 			for (int i = 0; i < n; i++) {
 				G_rgb (0.318,0.5*i/n,0.732);
 				s[0]=r[0];
@@ -70,9 +74,13 @@ int main()
 				G_fill_circle(r[0],r[1], 2);
 				G_circle (r[0], r[1], radius);
 			}
+			G_rgb (0.318,.5,0.732);
+			G_fill_circle(q[0],q[1],2);
 		}
 	} else {
 		if(p[1] < q[1]) { // point q is upper left of point p
+			G_rgb (0.318,0,0.732);
+			G_fill_circle(p[0],p[1],2);
 			for (int i = 0; i < n; i++) {
 				G_rgb (0.318,0.5*i/n,0.732);
 				s[0]=r[0];
@@ -83,7 +91,11 @@ int main()
 				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
+			G_rgb (0.318,.5,0.732);
+			G_fill_circle(q[0],q[1],2);
 		} else {	// point q is lower left of point p
+			G_rgb (0.318,0,0.732);
+			G_fill_circle(p[0],p[1],2);
 			for (int i = 0; i < n; i++) {
 				G_rgb (0.318,0.5*i/n,0.732);
 				s[0]=r[0];
@@ -94,12 +106,10 @@ int main()
 				G_fill_circle(r[0],r[1],2);
 				G_circle (r[0], r[1], radius);
 			}
+			G_rgb (0.318,.5,0.732);
+			G_fill_circle(q[0],q[1],2);
 		}
 	}
-
-	
-
-	;
 
 	
 

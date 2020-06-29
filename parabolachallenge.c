@@ -14,7 +14,7 @@ int main()
 
   // number of lines
   int n;
-  printf("\nPlease type in the number of lines: \n");
+  printf("\nPlease type in the number of lines: ");
   scanf("%d", &n);
   
   // clear the screen in a given color
