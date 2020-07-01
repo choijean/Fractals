@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <math.h>
 
+// declare functions
+void drawInnerTriangle(double x0, double y0, double x1, double y1, double x2, double y2);
 
 int main()
 {
@@ -22,18 +24,24 @@ int main()
 	const int swidth = 600;
 	const int sheight = 600;
 	G_init_graphics (swidth,sheight) ;  // interactive graphics
-	
-	// number of lines
-  int n;
-  printf("\nPlease type in the number of levels: ");
-  scanf("%d", &n);
-	
+
 	// clear the screen in a given color
 	G_rgb (0.8, 0.8, 0.8) ; // light gray
 	G_clear () ;
+	G_rgb (0, 0, 0.8) ;
+	
+	// initial two points of triangle
+	double x0 = 50;
+	double y0 = 50;
+	double x1 = 550;
+	double y1 = 50;
+	double x2 = (x0+x1)/2;
+	double y2 = sqrt((x1-x0)*(x1-x0) - x2*x2);
 
-	
-	
+
+
+	// call recursive function to draw inner triangles
+	drawInnerTriangle(x0, y0, x1, y1, x2, y2);
 
 	
 
@@ -44,7 +52,26 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("../images/triangleInTriangle.bmp") ;
+	G_save_to_bmp_file("triangleInTriangle.bmp") ;
+}
+
+// function finds the midpoints of a triangle with points 
+// (x0, y0), (x1, y1), (x2, y2) and draws a triangle using those points
+void drawInnerTriangle(double x0, double y0, double x1, double y1, double x2, double y2){
+	G_triangle (x0, y0, x1, y1, x2, y2) ;
+	double mx01 = x0 + (x1-x0)/2;	
+	double my01 = y0 + (y1-y0)/2;
+	double mx12 = x1 + (x2-x1)/2;
+	double my12 = y1 + (y2-y1)/2;
+	double mx20 = x2 + (x0-x2)/2;
+	double my20 = y2 + (y0-y2)/2;
+	double length = sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
+
+	if (length <= 0){
+		return;
+	} else {
+		drawInnerTriangle(mx01, my01, mx12, my12, mx20, my20);
+	}
 }
 
 
