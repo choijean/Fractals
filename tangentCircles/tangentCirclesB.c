@@ -1,5 +1,6 @@
 /*
 * Jean Choi
+* 6/28/2020
 * CS410P: Exploring Fractals, taught by Dr. David Ely
 *
 *	The goal of this program is to create a line of tangent circles, 

@@ -1,3 +1,10 @@
+/*
+* Jean Choi
+* 6/28/2020
+* CS410P: Exploring Fractals, taught by Dr. David Ely
+*
+* This is a tool to calculate rainbow rgb values, given 'n' steps.
+*/
 
 #include  "FPToolkit.c"
 

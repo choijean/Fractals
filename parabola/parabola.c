@@ -1,3 +1,8 @@
+/*
+* Jean Choi
+* 6/25/2020
+* CS410P: Exploring Fractals, taught by Dr. David Ely
+*/
 
 #include  "FPToolkit.c"
 
