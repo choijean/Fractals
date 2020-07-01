@@ -45,72 +45,17 @@ int main()
 	double r[2], s[2];
 	r[0]=p[0];
 	r[1]=p[1];
-	if (p[0] < q[0]) {
-		if(p[1] < q[1]) { //point q is upper right of point p
-			G_rgb (0.318,0,0.732);
-			G_fill_circle(p[0],p[1],2);
-			for (int i = 0; i < n; i++) {
-				G_rgb (0.318,0.5*i/n,0.732);
-				s[0]=r[0];
-				s[1]=r[1];
-				r[0] = p[0] + (q[0]-p[0]) * i/n + (q[0]-p[0])/(2*n);
-				r[1] = p[1] + (q[1]-p[1]) * i/n + (q[1]-p[1])/(2*n);
-				G_line(s[0], s[1], r[0], r[1]);
-				G_fill_circle(r[0],r[1],2);
-				G_circle (r[0], r[1], radius);
-			}
-			G_rgb (0.318,.5,0.732);
-			G_fill_circle(q[0],q[1],2);
-		} else {	// point q is lower right of point p
-			G_rgb (0.318,0,0.732);
-			G_fill_circle(p[0],p[1],2);
-			for (int i = 0; i < n; i++) {
-				G_rgb (0.318,0.5*i/n,0.732);
-				s[0]=r[0];
-				s[1]=r[1];
-				r[0] = p[0] + (q[0]-p[0]) * i/n + (q[0]-p[0])/(2*n);
-				r[1] = p[1] - (p[1]-q[1]) * i/n - (p[1]-q[1])/(2*n);
-				G_line(s[0], s[1], r[0], r[1]);
-				G_fill_circle(r[0],r[1], 2);
-				G_circle (r[0], r[1], radius);
-			}
-			G_rgb (0.318,.5,0.732);
-			G_fill_circle(q[0],q[1],2);
-		}
-	} else {
-		if(p[1] < q[1]) { // point q is upper left of point p
-			G_rgb (0.318,0,0.732);
-			G_fill_circle(p[0],p[1],2);
-			for (int i = 0; i < n; i++) {
-				G_rgb (0.318,0.5*i/n,0.732);
-				s[0]=r[0];
-				s[1]=r[1];
-				r[0] = p[0] - (p[0]-q[0]) * i/n - (p[0]-q[0])/(2*n);
-				r[1] = p[1] + (q[1]-p[1]) * i/n + (q[1]-p[1])/(2*n);
-				G_line(s[0], s[1], r[0], r[1]);
-				G_fill_circle(r[0],r[1],2);
-				G_circle (r[0], r[1], radius);
-			}
-			G_rgb (0.318,.5,0.732);
-			G_fill_circle(q[0],q[1],2);
-		} else {	// point q is lower left of point p
-			G_rgb (0.318,0,0.732);
-			G_fill_circle(p[0],p[1],2);
-			for (int i = 0; i < n; i++) {
-				G_rgb (0.318,0.5*i/n,0.732);
-				s[0]=r[0];
-				s[1]=r[1];
-				r[0] = p[0] - (p[0]-q[0]) * i/n - (p[0]-q[0])/(2*n);
-				r[1] = p[1] - (p[1]-q[1]) * i/n - (p[1]-q[1])/(2*n);
-				G_line(s[0], s[1], r[0],r[1]);
-				G_fill_circle(r[0],r[1],2);
-				G_circle (r[0], r[1], radius);
-			}
-			G_rgb (0.318,.5,0.732);
-			G_fill_circle(q[0],q[1],2);
-		}
-	}
 
+	for (int i = 0; i < n; i++) {
+		G_rgb (0.318,0.5*i/n,0.732);
+		s[0]=r[0];
+		s[1]=r[1];
+		r[0] = p[0] + (q[0]-p[0]) * i/n + (q[0]-p[0])/(2*n);
+		r[1] = p[1] + (q[1]-p[1]) * i/n + (q[1]-p[1])/(2*n);
+		G_line(s[0], s[1], r[0], r[1]);
+		G_fill_circle(r[0],r[1],2);
+		G_circle (r[0], r[1], radius);
+	}
 	
 
 	
