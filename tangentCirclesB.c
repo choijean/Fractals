@@ -66,7 +66,8 @@ int main()
 	int key ;   
 	key =  G_wait_key() ; // pause so user can see results
 
-	G_save_to_bmp_file("demo.bmp") ;
+	// save file
+	G_save_to_bmp_file("tangentCirclesB.bmp") ;
 }
 
 
