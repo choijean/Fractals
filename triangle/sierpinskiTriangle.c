@@ -13,7 +13,8 @@
 #include <math.h>
 
 // declare functions
-void drawInnerTriangle(double x0, double y0, double x1, double y1, double x2, double y2);
+void sierpinski(int n, double x0, double y0, double x1, double y1, double x2, double y2, double colorFactor);
+double midpoint(double i, double j);
 
 int main()
 {
@@ -28,7 +29,14 @@ int main()
 	// clear the screen in a given color
 	G_rgb (0.8, 0.8, 0.8) ; // light gray
 	G_clear () ;
-	G_rgb (0, 0, 0.8) ;
+	G_rgb (0.318,0.5,0.732);
+
+	// number of lines
+  int n;
+  printf("\nPlease type in the number of layers (depth): ");
+  scanf("%d", &n);
+
+	double colorFactor = 1;
 	
 	// initial two points of triangle
 	double x0 = 50;
@@ -43,7 +51,7 @@ int main()
 	G_triangle(x0, y0, x1, y1, x2, y2);
 
 	// call recursive function to draw inner triangles
-	drawInnerTriangle(x0, y0, x1, y1, x2, y2);
+	sierpinski(n, x0, y0, x1, y1, x2, y2, colorFactor);
 
 	
 
@@ -54,28 +62,34 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("triangleInTriangle.bmp") ;
+	G_save_to_bmp_file("sierpinskiTriangle.bmp") ;
 }
 
 // function finds the midpoints of a triangle with points 
 // (x0, y0), (x1, y1), (x2, y2) and draws a triangle using those points
-void drawInnerTriangle(double x0, double y0, double x1, double y1, double x2, double y2){
+void sierpinski(int n, double x0, double y0, double x1, double y1, double x2, double y2, double colorFactor){
 
-	double mx01 = x0 + (x1-x0)/2;	
-	double my01 = y0 + (y1-y0)/2;
-	double mx12 = x1 + (x2-x1)/2;
-	double my12 = y1 + (y2-y1)/2;
-	double mx20 = x2 + (x0-x2)/2;
-	double my20 = y2 + (y0-y2)/2;
+	// find the length of the triangle using two points
 	double length = sqrt((x0-x1)*(x0-x1) + (y0-y1)*(y0-y1));
-	G_fill_triangle (mx01, my01, mx12, my12, mx20, my20) ;
-	if (length <= 0){
+	
+
+	if (n <= 0 || length <= 0){
 		return;
 	} else {
-		//drawInnerTriangle(x0, y0, mx01, my01, mx20, my20);
-		drawInnerTriangle(mx01, my01, x1, y1, mx12, my12);
-		//drawInnerTriangle(mx20, my20, x2, y2, mx12, my12);
+		sierpinski(n-1, midpoint(x0, x1), midpoint(y0, y1), x1, y1, midpoint(x1, x2), midpoint(y1, y2), colorFactor-(1/n));
+		sierpinski(n-1, x0, y0, midpoint(x0, x1), midpoint(y0, y1),  midpoint(x0, x2), midpoint(y0, y2), colorFactor);
+		sierpinski(n-1, midpoint(x2, x0), midpoint(y2, y0), x2, y2, midpoint(x1, x2), midpoint(y1, y2), colorFactor);
+
+		//choose color
+		G_rgb (0.318,0.5*(colorFactor-(1/n)),0.732);
+		G_fill_triangle (midpoint(x0, x1), midpoint(y0, y1), midpoint(x1, x2), midpoint(y1, y2), midpoint(x2, x0), midpoint(y2, y0));
 	}
+;
+}
+
+// function determines the midpoint between two values
+double midpoint(double i, double j){
+	return (i+j)/2;
 }
 
 
