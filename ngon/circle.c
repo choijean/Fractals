@@ -9,6 +9,11 @@
 
 #include "FPToolkit.c"
 
+#ifndef M_PI
+#    define M_PI 3.1415926535897932
+#endif
+
+
 int main()
 {
 	// repl.it display
@@ -23,16 +28,24 @@ int main()
 	G_rgb (0.8, 0.8, 0.8) ; // light gray
 	G_clear () ;
 	G_rgb (0.3, 0.5, 0.7) ; //light blue
-
-  int n;
-  printf("\nPlease type in the number: ");
-  scanf("%d", &n);
-
+ 
+	// get initial two points
 	printf("\nClick two points on the screen: ");
 	double p[2], q[2] ;
 	double dx, dy;
 	G_wait_click(p) ;
 	G_wait_click(q) ;
+
+	// calculate radius
+	double r = sqrt((q[0]-p[0])*(q[0]-p[0]) + (q[1]-p[1])*(q[1]-p[1]));
+
+	// draw circle using points
+	double s[2];
+	for(int i = 0; i < 360; i += 0.001){
+		s[0] = cos(i*(2*M_PI)/360) * r + p[0];
+		s[1] = sin(i*(2*M_PI)/360) * r + p[1];
+		G_point(s[0], s[1]);
+	}
 
 	
 
