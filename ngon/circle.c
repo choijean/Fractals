@@ -29,26 +29,25 @@ int main()
 	G_clear () ;
 	G_rgb (0.3, 0.5, 0.7) ; //light blue
  
-	// get initial two points
+	// select two points
 	printf("\nClick two points on the screen: ");
 	double p[2], q[2] ;
 	double dx, dy;
 	G_wait_click(p) ;
+	G_fill_circle(p[0],p[1],2) ;
 	G_wait_click(q) ;
+	G_fill_circle(q[0],q[1],2) ;
 
 	// calculate radius
 	double r = sqrt((q[0]-p[0])*(q[0]-p[0]) + (q[1]-p[1])*(q[1]-p[1]));
 
-	// draw circle using points
-	double s[2];
-	for(int i = 0; i < 360; i += 0.001){
-		s[0] = cos(i*(2*M_PI)/360) * r + p[0];
-		s[1] = sin(i*(2*M_PI)/360) * r + p[1];
-		G_point(s[0], s[1]);
+	// plot points
+	double x, y; 
+	for(double i = 0; i <= (2*M_PI); i += .001){
+		x = cos(i*(2*M_PI)) * r + p[0];
+		y = sin(i*(2*M_PI)) * r + p[1];
+		G_point(x, y);
 	}
-
-	
-
 
 
 
@@ -61,3 +60,4 @@ int main()
 	// save file
 	G_save_to_bmp_file("circle.bmp") ;
 }
+
