@@ -3,7 +3,10 @@
 *	7/13/2020
 * CS410P: Exploring Fractals, taught by Dr. David Ely
 *
-* The goal of this program is to make the Koch line segment
+* The goal of this program is to make the Koch curve. 
+* The user clicks two points of the screen that indicate 
+* the start and end of the curve, as well as how many levels
+* to the fractal.
 */
 
 #include "FPToolkit.c"
@@ -28,12 +31,13 @@ void koch(int n, double px, double py, double qx, double qy) {
 			sy = py + 2.0/3 * dy ;
 			tx = (sx-rx) * c - (sy-ry) * s + rx ;
 			ty = (sx-rx) * s + (sy-ry) * c + ry ;
-			G_line(px,py,qx,qy) ;		// initial long line
+			G_line(px,py,rx,ry) ;		
 			G_line(rx,ry,tx,ty) ;
 			G_line(tx,ty,sx,sy) ;
-			G_rgb (0.8, 0.8, 0.8) ; // clear color
-			G_line(rx,ry,sx,sy) ;   // remove line
-			G_rgb (0.3, 0.5, 0.7) ;
+			G_line(sx,sy,qx,qy) ;
+			G_rgb(0.8,0.8,0.8) ;
+			G_line(rx,ry,sx,sy) ;
+			G_rgb(0.3,0.5,0.7) ;
 			koch(n-1, px, py, rx, ry) ;
 			koch(n-1, rx, ry, tx, ty) ;
 			koch(n-1, tx, ty, sx, sy) ;
@@ -65,7 +69,9 @@ int main()
 	// user picks two points
 	double p[2], q[2];
 	G_wait_click(p);
+	G_fill_circle(p[0],p[1],2) ;
 	G_wait_click(q);
+	G_fill_circle(q[0],q[1],2) ;
 
 	// call koch recursive function
 	koch(n, p[0], p[1], q[0], q[1]);
@@ -77,5 +83,5 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("koch.bmp") ;
+	G_save_to_bmp_file("kochCurve.bmp") ;
 }
