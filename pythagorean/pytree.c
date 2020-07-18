@@ -15,9 +15,6 @@
 #    define M_PI 3.1415926535897932
 #endif
 
-	// determine scale
-	double scale = 6.0 ;
-
 double absd(double d) {
 	return d < 0 ? -d : d ;
 }
@@ -30,52 +27,57 @@ double dist(double m1, double m2){
 	return absd(m1 - m2);
 }
 
-void pytree(double x0, double y0, double x1, double y1, int n){
+void pytree(double x0, double y0, double x1, double y1, int n, double scale, double height){
 
 	// determine second set of points (x2, y2), (x3, y3)
-	double x2, y2, x3, y3, x4, y4, xm, ym, f, g;
-	x2 = x1 - (y1 - y0);						y2 = y1 + (x1 - x0);
-	x3 = x0 - (y1 - y0);						y3 = y0 + (x1 - x0);
+	double x2, y2, x3, y3, x4, y4, xm, ym, g;
+	x2 = x1 - (y1 - y0);						y2 = height * y1 + (x1 - x0);
+	x3 = x0 - (y1 - y0);						y3 = height * y0 + (x1 - x0);
 
 	// determine 3rd point (x4, y4) to make third point of right triangle,
 	// using (x2, y2), (x3, y3) 
-	f = 0.66 ;
-	g = sqrt(f*(1-f)) ;
-	xm = x3 + f * (x2 - x3) ;
-	ym = y3 + f * (y2 - y3) ;
+	g = sqrt(scale*(1-scale)) ;
+	xm = x3 + scale * (x2 - x3) ;
+	ym = y3 + scale * (y2 - y3) ;
 
 	x4 = xm - g * (y2 - y3) ;
 	y4 = ym + g * (x2 - x3) ;
 
+  double boxX[4], boxY[4];
+  boxX[0] = x0;     boxY[0] = y0;
+  boxX[1] = x1;     boxY[1] = y1;
+  boxX[2] = x2;     boxY[2] = y2;
+  boxX[3] = x3;     boxY[3] = y3;
+  double triangleX[3], triangleY[3];
+  triangleX[0] = x3;    triangleY[0] = y3;
+  triangleX[1] = x2;    triangleY[1] = y2;
+  triangleX[2] = x4;    triangleY[2] = y4;
 
-	//draw points
-	// G_fill_circle(x0, y0, 2) ;
-	// G_fill_circle(x1, y1, 2) ;
-	// G_fill_circle(x2, y2, 2) ; 
-	// G_fill_circle(x3, y3, 2) ;
-	// G_fill_circle(x4, y4, 2) ;
-	//draw lines
+  // draw box
+  G_rgb (0.4, 0.167, 0.167) ; //brown
+  G_fill_polygon(boxX, boxY, 4);
+  // draw triangle
+  G_rgb (0.5, 0.167, 0.167) ; //brown
+  G_fill_polygon(triangleX, triangleY, 3);
+
+	//draw lines for rectangle
+  G_rgb (0,0,0) ; //black
 	G_line(x0, y0, x1, y1) ;
 	G_line(x0, y0, x3, y3) ;
 	G_line(x1, y1, x2, y2) ;
 	G_line(x2, y2, x3, y3) ;
+
+  //draw lines for triangle
 	G_line(x2, y2, x4, y4) ;
 	G_line(x3, y3, x4, y4) ;
-	// printf("\nx0: %lf %lf", x0, y0) ;
-	// printf("\nx1: %lf %lf", x1, y1) ;
-	// printf("\nx2: %lf %lf", x2, y2) ;
-	// printf("\nx3: %lf %lf", x3, y3) ;
-	// printf("\nx4: %lf %lf", x4, y4) ;
-
 
 	if(n <= 0){
 		return;
 	}
 	else {
-		pytree(x3, y3, x4, y4, n-1);
-		pytree(x4, y4, x2, y2, n-1);
+		pytree(x3, y3, x4, y4, n-1, scale, height);
+		pytree(x4, y4, x2, y2, n-1, scale, height);
 	};
-
 }
 
 int main()
@@ -91,7 +93,7 @@ int main()
 	// clear the screen in a given color
 	G_rgb (0.8, 0.8, 0.8) ; // light gray
 	G_clear () ;
-	G_rgb (0.3, 0.5, 0.7) ; //light blue
+
 
 	// number of lines
   int n;
@@ -105,7 +107,7 @@ int main()
 
 
 
-	pytree(x0, y0, x1, y1, n);
+	pytree(x0, y0, x1, y1, n, 0.66, 1);
 
 
 

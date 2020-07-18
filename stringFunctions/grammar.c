@@ -10,7 +10,9 @@
 
 #include "FPToolkit.c"
 
+char v[1000];
 char u[1000];
+char temp[1000];
 
 typedef struct Production {
 	char var ;
@@ -19,10 +21,10 @@ typedef struct Production {
 } Production ;
 
 const int numRules = 2;
-struct Production prd[numRules];
 
 int main()
 {
+  struct Production prd[numRules];
 	u[0] = '\0';
 
 	// AXIOM
@@ -36,26 +38,37 @@ int main()
 
 	// get depth from user 
   int n;
-  printf("\nPlease type in the depth: ");
+  printf("Please type in the depth: \n");
   scanf("%d", &n);
 
+  // rule replace n times
+  strcpy (u, prd[0].axiom);
+  for(int j = 0; j < n; j++) {
+    strcpy(v,u);
+    memset(&u[0], 0, sizeof(u));
+    for(int i = 0; i < strlen(v); i++) {
+      if(v[i] == prd[1].var) {
+        strcat(u, prd[1].rule);
+      }
+      else {
+        temp[0] = v[i];
+        temp[1] = '\0' ;
+        strcat(u, temp);
+      }
+    }
+  }
+  printf("u: %s\n", u);
+
+
+	//printf("\naxiom: %s\n", prd[0].axiom);
 	
-
-
-	printf("\naxiom: %s", prd[0].axiom);
-	printf("\nu: %s", u);
 
 
 
 
 
 	//===============================================
-	
-	int key ;   
-	key =  G_wait_key() ; // pause so user can see results
 
-	// save file
-	G_save_to_bmp_file("grammar.bmp") ;
 }
 
 
