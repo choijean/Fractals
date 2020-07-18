@@ -34,6 +34,7 @@ double length = 5;
 double minx, miny, maxx, maxy ;
 double apx, apy, aplength;
 
+// builds a string based on a given axiom and rules
 void buildString(int depth){
   struct Production prd[numRules];
 	u[0] = '\0';
@@ -66,7 +67,7 @@ void buildString(int depth){
   //printf("u: %s\n", u);
 }
 
-
+// debug function: drawing the bounding box of the original drawing
 void printminmax() {
   printf("minx: %lf\t", minx);
   printf("maxx: %lf\n", maxx);
@@ -78,6 +79,7 @@ void printminmax() {
   G_line(maxx,maxy,minx,maxy);
 }
 
+// resize and center image
 void autoplacer() {
   //by the end of this function, sx, sy, length should change
   //set minx, miny, maxx, maxy to initial point
@@ -145,7 +147,7 @@ void autoplacer() {
 
 }
 
-
+// decodes the string into a graphic
 void stringInterpreter(){
   double x = sx; double y = sy;
   double nx, ny;
@@ -181,9 +183,12 @@ int main()
   G_rgb(0,0,0) ;
 
 	// get depth from user 
-  int depth;
+  int depth; int degrees;
   printf("Please type in the depth: \n");
   scanf("%d", &depth);
+  printf("Please type in the angle of the turtle in degrees: \n");
+  scanf("%d", &degrees);
+  cangle = degrees * (M_PI/180.0);
 
   buildString(depth);
   stringInterpreter();
@@ -194,7 +199,7 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("turtleGraphic.bmp") ;
+	G_save_to_bmp_file("midterm.bmp") ;
 
 
 }
