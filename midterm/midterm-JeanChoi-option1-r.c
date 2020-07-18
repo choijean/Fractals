@@ -13,9 +13,9 @@ double swidth = 600;
 double sheight = 600;
 
 // for string builder
-char v[1000];
-char u[1000];
-char temp[1000];
+char v[1000000];
+char u[1000000];
+char temp[1000000];
 typedef struct Production {
 	char var ;
 	char axiom[100] ;
@@ -116,7 +116,7 @@ void autoplacer() {
     dnx = 0.9 * swidth;
     dny = dnx * dy / dx;
   } else {
-    dny = 0.9 * swidth;
+    dny = 0.9 * sheight;
     dnx = dny * dx / dy;
   }
   // printf("dnx %lf\n", dnx);
@@ -126,7 +126,7 @@ void autoplacer() {
   double xmultiplier = dnx/dx;
   length = xmultiplier;
 
-  //draw new bounding box
+  // //draw new bounding box
   // G_line(300-dnx/2, 300-dny/2, 300-dnx/2, 300+dny/2);
   // G_line(300-dnx/2, 300-dny/2, 300+dnx/2, 300-dny/2);
   // G_line(300+dnx/2, 300+dny/2, 300-dnx/2, 300+dny/2);
@@ -184,7 +184,7 @@ int main()
 
 	// get depth from user 
   int depth; int degrees;
-  printf("Please type in the depth: \n");
+  printf("Please type in the depth (maximum 8): \n");
   scanf("%d", &depth);
   printf("Please type in the angle of the turtle in degrees: \n");
   scanf("%d", &degrees);

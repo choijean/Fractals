@@ -124,18 +124,68 @@ void string_builder()
       k++ ;
     }
     strcpy(u,v) ;
-    print_string(u) ;
-    printf("\n") ;
+    //print_string(u) ;
+    //printf("\n") ;
   }
   
+    print_string(u) ;
+    printf("\n") ;
 }
 
 
 void autoplacer(int swidth, int sheight, double *p)
 {
+  int k ;
+  double x0,y0, x1,y1;
+  double cur_angle = gangle ;
+  double cur_locx, cur_locy ;
+  double minx, maxx, miny, maxy = 0;
+  x0 = y0 = 0; flen = 1;
 
-  // your code goes here!
-  
+  k = 0 ;
+  while(u[k] != '\0') {
+    if(u[k] == '+') { cur_angle += angle ; }
+    if(u[k] == '-') { cur_angle -= angle ; }
+    if(u[k] == 'f' || (u[k] >= 'A' && u[k] <= 'Z')) { 
+      x1 = x0 + flen*cos(cur_angle*M_PI/180.0) ;
+      y1 = y0 + flen*sin(cur_angle*M_PI/180.0) ;
+      x0 = x1 ;  y0 = y1 ;
+      if(x1<minx)
+        minx = x1 ;
+      if(x1>maxx)
+        maxx = x1 ;
+      if(y1<miny)
+        miny = y1 ;
+      if(y1>maxy)
+        maxy = y1 ;
+      x0 = x1 ; y0 = y1 ;
+    }
+    k++ ;
+  }
+
+  // calculate new bounding box;
+  double dx = maxx-minx;
+  double dy = maxy-miny;
+  double dnx, dny;
+  if (dx > dy) {
+    dnx = 0.9 * swidth;
+    dny = dnx * dy / dx;
+  } else {
+    dny = 0.9 * sheight;
+    dnx = dny * dx / dy;
+  }
+
+  // calculate new length 
+  double multiplier = dnx/dx ; // or dny/dy
+  p[2] = multiplier ;
+
+  // find delta minx to 0, and delta miny to 0
+  double dminx = 0-minx ;
+  double dminy = 0-miny ;
+
+  // calculate new x,y ;
+  p[0] = (swidth-dnx)/2 + dminx * multiplier;
+  p[1] = (sheight-dny)/2 + dminy * multiplier;
 }
 
 
@@ -148,23 +198,25 @@ void string_interpreter()  // like an etch-a-sketch
   double cur_angle = gangle ;
   double cur_locx, cur_locy ;
   
-  swidth = 800 ;  sheight = 800 ;
+  swidth = 600 ;  sheight = 600 ;
+  //  swidth = 800 ;  sheight = 800 ;
   //  swidth = 800 ;  sheight = 300 ;  
   //  swidth = 300 ;  sheight = 800 ;
   
-  // autoplacer(swidth, sheight, p) ;
-  // x0 = p[0] ;
-  // y0 = p[1] ;
-  // flen = p[2] ;
+  autoplacer(swidth, sheight, p) ;
+  x0 = p[0] ;
+  y0 = p[1] ;
+  flen = p[2] ;
 
-  x0 = swidth/2.0 ;
-  y0 = sheight/2.0 ;
-  flen = 10 ;
+  // if autoplace doesn't work
+  // x0 = swidth/2.0 ;
+  // y0 = sheight/2.0 ;
+  // flen = 10 ;
   
   G_init_graphics(swidth, sheight) ;
 
   G_rgb(1,0,0) ;
-  G_fill_circle(400,400,5) ;
+  //G_fill_circle(400,400,5) ;
   G_rgb(0,0,0) ;
 
 
@@ -197,6 +249,8 @@ int main()
   //plant() ;
   
   string_builder() ;
+  printf("string builder finished");
   string_interpreter() ;
+  printf("string interpreter finished");
 
 }
