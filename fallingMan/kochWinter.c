@@ -228,7 +228,7 @@ void background(){
   double sf ;
 
   double r,g,b , sr,sg,sb , er,eg,eb ;
-  y0 = 0 ;
+  y0 = 350 ;
   y1 = 600 ;
   
   dy = y1-y0 ;
@@ -236,15 +236,18 @@ void background(){
   sr = 0.117 ;  sg = 0.117 ;  sb = 0.263 ;
   er = 0.581 ;  eg = 0.180 ;  eb = 0 ; 
 
+  for(int k=0;k<=y0;k++){
+    G_rgb(sr,sg,sb) ;
+    G_line(0,k,600,k) ;
+  }
+
     
   for(int k=y0;k<=y1;k++) {
-
     sf = (k-y0)/dy ;
     //sf = pow(sf,3) ;
     r = sr + sf*(er-sr) ;  g = sg + sf*(eg-sg) ;  b = sb + sf*(eb-sb) ;
     G_rgb(r,g,b) ;
     G_line(0,k,600,k) ;
-      
   }
 }
 
