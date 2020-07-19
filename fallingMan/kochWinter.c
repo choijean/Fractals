@@ -50,7 +50,7 @@ int main()
   background(); 
 
   // TREES
-  pytree(350, 40, 430, 40, 8, 0.66, 1);
+  pytree(350, 40, 430, 40, 15, 0.66, 1);
 
   // SNOWFLAKE
 
@@ -156,6 +156,8 @@ void pytree(double x0, double y0, double x1, double y1, int n, double scale, dou
   G_rgb (0.163, 0.038, 0) ; //brown
   G_fill_polygon(boxX, boxY, 4);
   // draw triangle
+  if(n == 1) 
+    G_rgb(1,1,1) ;
   G_fill_polygon(triangleX, triangleY, 3);
 
 	if(n <= 0){

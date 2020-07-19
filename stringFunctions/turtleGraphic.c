@@ -56,8 +56,8 @@ void buildString(int depth){
         strcat(u, temp);
       }
     }
+  printf("j=%d u: %s\n", j, u);
   }
-  printf("u: %s\n", u);
 }
 
 void stringInterpreter(){
