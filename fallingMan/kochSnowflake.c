@@ -48,13 +48,14 @@ void koch(int n, double px, double py, double qx, double qy) {
 			koch(n-1, sx, sy, qx, qy) ;
 
 			G_rgb(0.8,0.8,0.8) ;
-			G_line(px,py,rx,ry) ;		key = G_wait_key();
-			G_line(rx,ry,tx,ty) ;		key = G_wait_key();
-			G_line(tx,ty,sx,sy) ;		key = G_wait_key();
-			G_line(sx,sy,qx,qy) ;		key = G_wait_key();
-		
-			
+      if(n==1){
+			G_line(px,py,rx,ry) ;
+			G_line(rx,ry,tx,ty) ;
+			G_line(tx,ty,sx,sy) ;
+			G_line(sx,sy,qx,qy) ;
+      }
 	}
+  
 }
 
 int main()

@@ -18,6 +18,7 @@ double c1 = cos(-60 * M_PI/180.0);
 double s1 = sin(-60 * M_PI/180.0);
 
 
+void kochSnowflake(int depth, double *p, double *q);
 void koch(int n, double px, double py, double qx, double qy);
 void pytree(double x0, double y0, double x1, double y1, int n, double scale, double height);
 void drawWindow();
@@ -52,21 +53,14 @@ int main()
   pytree(350, 40, 430, 40, 8, 0.66, 1);
 
   // SNOWFLAKE
-  for(int i = 0; i < 10; i++) {
 
-	// user picks two points
-	double p[2], q[2], o[2], m[2];
-	G_wait_click(p);
-	G_wait_click(q);
-
-	// calculate third point of triangle, o[2]
-	o[0] = (q[0]-p[0]) * c1 - (q[1]-p[1]) * s1 + p[0] ;
-	o[1] = (q[0]-p[0]) * s1 + (q[1]-p[1]) * c1 + p[1] ;
-
-	// call koch recursive function on all three lines
-	koch(6, p[0], p[1], q[0], q[1]);
-	koch(6, q[0], q[1], o[0], o[1]);
-	koch(6, o[0], o[1], p[0], p[1]);
+	// user picks two points and enters depth
+	double p[2], q[2];
+  int depth = 4;
+  for (int i = 0; i < 10; i++) {
+    G_wait_click(p);
+    G_wait_click(q);
+    kochSnowflake(depth, p, q);
   }
 
   // draw window
@@ -82,7 +76,19 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("kochWinter2.bmp") ;
+	G_save_to_bmp_file("kochWinter.bmp") ;
+}
+
+void kochSnowflake(int depth, double *p, double *q){
+  double o[2];
+  // calculate third point of triangle, o[2]
+	o[0] = (q[0]-p[0]) * c1 - (q[1]-p[1]) * s1 + p[0] ;
+	o[1] = (q[0]-p[0]) * s1 + (q[1]-p[1]) * c1 + p[1] ;
+
+	// call koch recursive function on all three lines
+	koch(depth, p[0], p[1], q[0], q[1]);
+	koch(depth, q[0], q[1], o[0], o[1]);
+	koch(depth, o[0], o[1], p[0], p[1]);
 }
 
 // recursive function to draw a koch curve above and below two given points
@@ -93,27 +99,29 @@ void koch(int n, double px, double py, double qx, double qy) {
 		return;
 	} else {
 		double dx = qx-px;	double dy = qy-py;
-			rx = px + 1.0/3 * dx ;
-			ry = py + 1.0/3 * dy ;
-			sx = px + 2.0/3 * dx ;
-			sy = py + 2.0/3 * dy ;
-			tx = (sx-rx) * c - (sy-ry) * s + rx ;
-			ty = (sx-rx) * s + (sy-ry) * c + ry ;
-			ux = (sx-rx) * c1 - (sy-ry) * s1 + rx ; // for extra spicy snowflake
-			uy = (sx-rx) * s1 + (sy-ry) * c1 + ry ; // for extra spicy snowflake
-			G_rgb(0,0,0) ;
-			G_line(px,py,qx,qy) ;
-			G_rgb(0.8,0.8,0.8) ;
-			G_line(px,py,rx,ry) ;		
-			G_line(rx,ry,tx,ty) ;
-			G_line(tx,ty,sx,sy) ;
-			G_line(sx,sy,qx,qy) ;
-			koch(n-1, px, py, rx, ry) ;
-			koch(n-1, rx, ry, tx, ty) ;
-			koch(n-1, rx, ry, ux, uy) ; // for extra spicy snowflake
-			koch(n-1, tx, ty, sx, sy) ;
-			koch(n-1, ux, uy, sx, sy) ; // for extra spicy snowflake
-			koch(n-1, sx, sy, qx, qy) ;
+    rx = px + 1.0/3 * dx ;
+    ry = py + 1.0/3 * dy ;
+    sx = px + 2.0/3 * dx ;
+    sy = py + 2.0/3 * dy ;
+    tx = (sx-rx) * c - (sy-ry) * s + rx ;
+    ty = (sx-rx) * s + (sy-ry) * c + ry ;
+    ux = (sx-rx) * c1 - (sy-ry) * s1 + rx ; // for extra spicy snowflake
+    uy = (sx-rx) * s1 + (sy-ry) * c1 + ry ; // for extra spicy snowflake
+
+    koch(n-1, px, py, rx, ry) ;
+    koch(n-1, rx, ry, tx, ty) ;
+    koch(n-1, rx, ry, ux, uy) ; // for extra spicy snowflake
+    koch(n-1, tx, ty, sx, sy) ;
+    koch(n-1, ux, uy, sx, sy) ; // for extra spicy snowflake
+    koch(n-1, sx, sy, qx, qy) ;
+
+    G_rgb(0.8,0.8,0.8) ;
+    if(n==1){
+      G_line(px,py,rx,ry) ;	
+      G_line(rx,ry,tx,ty) ;
+      G_line(tx,ty,sx,sy) ;
+      G_line(sx,sy,qx,qy) ;
+    }
 	}
 }
 
@@ -150,17 +158,6 @@ void pytree(double x0, double y0, double x1, double y1, int n, double scale, dou
   // draw triangle
   G_fill_polygon(triangleX, triangleY, 3);
 
-	//draw lines for rectangle
-  // G_rgb (0,0,0) ; //black
-	// G_line(x0, y0, x1, y1) ;
-	// G_line(x0, y0, x3, y3) ;
-	// G_line(x1, y1, x2, y2) ;
-	// G_line(x2, y2, x3, y3) ;
-
-  // //draw lines for triangle
-	// G_line(x2, y2, x4, y4) ;
-	// G_line(x3, y3, x4, y4) ;
-
 	if(n <= 0){
 		return;
 	}
@@ -171,6 +168,7 @@ void pytree(double x0, double y0, double x1, double y1, int n, double scale, dou
 }
 
 // draws a window that changes colors
+// based on dr. ely's color-fading.c
 void drawWindow(){
   double x0,y0 , x1,y1, dx, dy ;
   double sf ;
@@ -221,7 +219,8 @@ void drawWindow(){
   }
 }
 
-// draws the background
+// draws the background 
+// based off of dr. ely's color-fading.c
 void background(){
   double x0,y0 , x1,y1, dx, dy ;
   double sf ;
@@ -247,7 +246,9 @@ void background(){
   }
 }
 
-// 
+// draws my signature
+// (x,y) is the location of the lower left point of the 'J'
+// len determines the size of each letter
 void signature(double x, double y, double len) {
   double dx = len*4;
   G_rgb(1,1,1);
