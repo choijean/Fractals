@@ -240,8 +240,7 @@ void background(){
     G_rgb(sr,sg,sb) ;
     G_line(0,k,600,k) ;
   }
-
-    
+ 
   for(int k=y0;k<=y1;k++) {
     sf = (k-y0)/dy ;
     //sf = pow(sf,3) ;

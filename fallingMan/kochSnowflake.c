@@ -88,15 +88,15 @@ int main()
 	// calculate third point of triangle, o[2]
 	o[0] = (q[0]-p[0]) * c1 - (q[1]-p[1]) * s1 + p[0] ;
 	o[1] = (q[0]-p[0]) * s1 + (q[1]-p[1]) * c1 + p[1] ;
-	// m[0] = (q[0]-p[0]) * c - (q[1]-p[1]) * s + p[0] ;
-	// m[1] = (q[0]-p[0]) * s + (q[1]-p[1]) * c + p[1] ;
+	//m[0] = (q[0]-p[0]) * c - (q[1]-p[1]) * s + p[0] ;
+	//m[1] = (q[0]-p[0]) * s + (q[1]-p[1]) * c + p[1] ;
 
 	// call koch recursive function
 	koch(n, p[0], p[1], q[0], q[1]);
 	koch(n, q[0], q[1], o[0], o[1]);
-	// koch(n, q[0], q[1], m[0], m[1]);
+	//koch(n, q[0], q[1], m[0], m[1]);
 	koch(n, o[0], o[1], p[0], p[1]);
-	// koch(n, m[0], m[1], p[0], p[1]);
+	//koch(n, m[0], m[1], p[0], p[1]);
 
 
 	//===============================================
@@ -105,5 +105,5 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("kochSnowflake2.bmp") ;
+	G_save_to_bmp_file("kochSnowflakeCombined.bmp") ;
 }
