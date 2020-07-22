@@ -19,7 +19,9 @@ double s1 = sin(-60 * M_PI/180.0);
 
 
 void kochSnowflake(int depth, double *p, double *q);
+void kochSnowflakeNormal(int depth, double *p, double *q);
 void koch(int n, double px, double py, double qx, double qy);
+void kochNormal(int n, double px, double py, double qx, double qy);
 void pytree(double x0, double y0, double x1, double y1, int n, double scale, double height);
 void drawWindow();
 void background();
@@ -56,12 +58,20 @@ int main()
 
 	// user picks two points and enters depth
 	double p[2], q[2];
-  int depth = 4;
-  for (int i = 0; i < 10; i++) {
+  int depth = 3;
+  for (int i = 0; i < 5; i++) {
+    G_wait_click(p);
+    G_wait_click(q);
+    kochSnowflakeNormal(depth, p, q);
+  }
+
+  depth = 3;
+  for (int i = 0; i < 5; i++) {
     G_wait_click(p);
     G_wait_click(q);
     kochSnowflake(depth, p, q);
   }
+
 
   // draw window
   drawWindow();
@@ -91,6 +101,18 @@ void kochSnowflake(int depth, double *p, double *q){
 	koch(depth, o[0], o[1], p[0], p[1]);
 }
 
+void kochSnowflakeNormal(int depth, double *p, double *q) {
+  double o[2];
+  // calculate third point of triangle, o[2]
+	o[0] = (q[0]-p[0]) * c1 - (q[1]-p[1]) * s1 + p[0] ;
+	o[1] = (q[0]-p[0]) * s1 + (q[1]-p[1]) * c1 + p[1] ;
+
+	// call koch recursive function on all three lines
+	kochNormal(depth, p[0], p[1], q[0], q[1]);
+	kochNormal(depth, q[0], q[1], o[0], o[1]);
+	kochNormal(depth, o[0], o[1], p[0], p[1]);
+}
+
 // recursive function to draw a koch curve above and below two given points
 void koch(int n, double px, double py, double qx, double qy) {	
   G_rgb (0.8, 0.8, 0.8) ;
@@ -114,6 +136,36 @@ void koch(int n, double px, double py, double qx, double qy) {
     koch(n-1, tx, ty, sx, sy) ;
     koch(n-1, ux, uy, sx, sy) ; // for extra spicy snowflake
     koch(n-1, sx, sy, qx, qy) ;
+
+    G_rgb(0.8,0.8,0.8) ;
+    if(n==1){
+      G_line(px,py,rx,ry) ;	
+      G_line(rx,ry,tx,ty) ;
+      G_line(tx,ty,sx,sy) ;
+      G_line(sx,sy,qx,qy) ;
+    }
+	}
+}
+
+// recursive function to draw a koch curve 
+void kochNormal(int n, double px, double py, double qx, double qy) {	
+  G_rgb (0.8, 0.8, 0.8) ;
+	double rx, ry, sx, sy, tx, ty;
+	if (n == 0) {
+		return;
+	} else {
+		double dx = qx-px;	double dy = qy-py;
+    rx = px + 1.0/3 * dx ;
+    ry = py + 1.0/3 * dy ;
+    sx = px + 2.0/3 * dx ;
+    sy = py + 2.0/3 * dy ;
+    tx = (sx-rx) * c - (sy-ry) * s + rx ;
+    ty = (sx-rx) * s + (sy-ry) * c + ry ;
+
+    kochNormal(n-1, px, py, rx, ry) ;
+    kochNormal(n-1, rx, ry, tx, ty) ;
+    kochNormal(n-1, tx, ty, sx, sy) ;
+    kochNormal(n-1, sx, sy, qx, qy) ;
 
     G_rgb(0.8,0.8,0.8) ;
     if(n==1){
@@ -157,7 +209,7 @@ void pytree(double x0, double y0, double x1, double y1, int n, double scale, dou
   G_fill_polygon(boxX, boxY, 4);
   // draw triangle
   if(n == 1) 
-    G_rgb(1,1,1) ;
+    G_rgb(.7,.7,.7) ;
   G_fill_polygon(triangleX, triangleY, 3);
 
 	if(n <= 0){

@@ -124,12 +124,12 @@ void string_builder()
       k++ ;
     }
     strcpy(u,v) ;
-    //print_string(u) ;
-    //printf("\n") ;
-  }
-  
     print_string(u) ;
     printf("\n") ;
+  }
+  
+    // print_string(u) ;
+    // printf("\n") ;
 }
 
 
@@ -216,7 +216,7 @@ void string_interpreter()  // like an etch-a-sketch
   G_init_graphics(swidth, sheight) ;
 
   G_rgb(1,0,0) ;
-  //G_fill_circle(400,400,5) ;
+  G_fill_circle(swidth/2,swidth/2,5) ;
   G_rgb(0,0,0) ;
 
 
@@ -249,8 +249,6 @@ int main()
   //plant() ;
   
   string_builder() ;
-  printf("string builder finished");
   string_interpreter() ;
-  printf("string interpreter finished");
 
 }
