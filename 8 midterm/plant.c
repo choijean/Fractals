@@ -9,33 +9,35 @@ typedef struct Production
 
 } Production ;
 
-const int SIZE = 1000000;
 Production prd[10] ;
 int rule_num = 0 ;
 
-char u[SIZE], v[SIZE] ;
+char u[1000000], v[1000000] ;
 double angle, gangle, flen ;
 int depth ;
 
-double x[SIZE], y[SIZE], z[SIZE];
+double x[1000000], y[1000000], z[1000000];
 int top = -1;
 
 int isempty() {
-  return (top == -1) ? 1: 0;
+  return (top <= -1) ? 1: 0;
 }
    
 int isfull() {
-  return (top == SIZE) ? 1 : 0;
+  return (top >= 1000000) ? 1 : 0;
+}
+
+void stackinfo(){
+printf("top %d: %lf %lf %lf\n", top, x[top], y[top], z[top]);
 }
 
 double popx() {
   double data;
    if(!isempty()) {
       data = x[top];
-      top--;  
       return data;
    } else {
-      printf("Could not retrieve data, Stack is empty.\n");
+      printf("Could not retrieve data, Stack X is empty.\n");
    }
 }
 
@@ -43,10 +45,9 @@ double popy() {
   double data;
    if(!isempty()) {
       data = y[top];
-      top--;  
       return data;
    } else {
-      printf("Could not retrieve data, Stack is empty.\n");
+      printf("Could not retrieve data, Stack Y is empty.\n");
    }
 }
 
@@ -54,10 +55,9 @@ double popz() {
   double data;
    if(!isempty()) {
       data = z[top];
-      top--;  
       return data;
    } else {
-      printf("Could not retrieve data, Stack is empty.\n");
+      printf("Could not retrieve data, Stack Z is empty.\n");
    }
 }
 
@@ -78,7 +78,7 @@ void push(double xd, double yd, double zd) {
 //  direction on the stack, and ] means pop info from stack and 
 //  position the turtle according to the location and angular 
 //  information popped.
-
+*/
 void plant()
 {
 
@@ -98,7 +98,7 @@ void plant()
   rule_num++ ;
 
 }
-*/
+
 
 void square_wave()
 {
@@ -191,6 +191,7 @@ void string_builder()
 
 void autoplacer(int swidth, int sheight, double *p)
 {
+  printf("autoplace");
   int k ;
   double x0,y0, x1,y1;
   double cur_angle = gangle ;
@@ -215,6 +216,19 @@ void autoplacer(int swidth, int sheight, double *p)
       if(y1>maxy)
         maxy = y1 ;
       x0 = x1 ; y0 = y1 ;
+    }
+    if (u[k] == '[') { //push on stack
+      // printf("%d: \n", k);
+      push(x0, y0, cur_angle);
+      //stackinfo();
+    }
+    if (u[k] == ']') { //pop stack
+      // printf("%d: ", k);
+      x0 = popx();
+      y0 = popy();
+      cur_angle = popz();
+      top--;
+      //stackinfo();
     }
     k++ ;
   }
@@ -272,7 +286,7 @@ void string_interpreter()  // like an etch-a-sketch
   G_init_graphics(swidth, sheight) ;
 
   G_rgb(1,0,0) ;
-  G_fill_circle(swidth/2,swidth/2,5) ;
+  // G_fill_circle(swidth/2,swidth/2,5) ;
   G_rgb(0,0,0) ;
 
 
@@ -286,6 +300,15 @@ void string_interpreter()  // like an etch-a-sketch
       G_rgb(0,0,0) ;
       G_line(x0,y0,x1,y1) ;
       x0 = x1 ;  y0 = y1 ;
+    }
+    if (u[k] == '[') { //push on stack
+      push(x0, y0, cur_angle);
+    }
+    if (u[k] == ']') { //pop stack
+      x0 = popx();
+      y0 = popy();
+      cur_angle = popz();
+      top--;
     }
     k++ ;
   }
@@ -301,10 +324,16 @@ int main()
   printf("Please specify the level of depth for the l-system: ") ;
   scanf("%d",&depth) ;
   
-  square_wave() ;
-  //plant() ;
+  //square_wave() ;
+  plant() ;
   
   string_builder() ;
   string_interpreter() ;
+
+  //===============================================
+	
+	int key ;   
+	key =  G_wait_key() ; // pause so user can see results
+
 
 }
