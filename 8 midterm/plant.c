@@ -191,7 +191,6 @@ void string_builder()
 
 void autoplacer(int swidth, int sheight, double *p)
 {
-  printf("autoplace");
   int k ;
   double x0,y0, x1,y1;
   double cur_angle = gangle ;
