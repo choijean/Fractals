@@ -44,7 +44,7 @@ int main()
   while (j < 100000000) {
     int r = (rand() % 120)+ 1; //random integers
 
-    Gi_rgb(0, 0, 0); //black
+    Gi_rgb(13, 68, 104); 
 
     (1 <= r && r <= 100) ? scale(1/s, 1/s) : scale(2/s, 2/s);
 
