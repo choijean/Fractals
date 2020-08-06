@@ -29,7 +29,7 @@ double sy = 50;
 double length = 5;
 
 void buildString(int depth){
-    struct Production prd[numRules];
+  struct Production prd[numRules];
 	u[0] = '\0';
 
 	// AXIOM
