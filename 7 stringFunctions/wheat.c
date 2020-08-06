@@ -320,6 +320,20 @@ int main()
   //background color
   background();
 
+  //haze
+  for(int i = 0; i <= 300; i++) {
+    if (i%3 == 0){
+      G_rgb(0.7,0.7,0.7);
+    } else if (i%3 == 1) {
+      G_rgb(0.5,0.5,0.5);
+    } else {
+      G_rgb(0.3,0.3,0.3) ;
+    }
+    int rx = rand() % 599;
+    int ry = rand() % 599;
+    G_point(rx,ry);
+  }
+
   //sun
   G_rgb(0.8,0.8,0.65);
   G_fill_circle(450,475,40);
@@ -328,15 +342,23 @@ int main()
   bird1(400, 350);
   bird2(375, 365);
 
-  //border
-  border();
 
   //plant
   cangle = 90;
   buildString(7);
   stringInterpreter(150,0,0.5);
 
+
+  //border
+  border();
+
+  // //===============================================
+	
+	// int key ;   
+	// key =  G_wait_key() ; // pause so user can see results
+
+
   // save file
-	G_save_to_bmp_file("wheat.bmp") ;
+	G_save_to_bmp_file("wheathaze.bmp") ;
 }
 
