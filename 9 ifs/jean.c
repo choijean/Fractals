@@ -9,8 +9,8 @@
 
 #include "FPToolkit.c"
 
-double x[1] = {0} ;
-double y[1] = {0} ;
+double x[1] = {1} ;
+double y[1] = {1} ;
 int n = 1 ;
 
 
