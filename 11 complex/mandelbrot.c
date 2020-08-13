@@ -122,7 +122,6 @@ int main()
   // mandelbrot_2();
   for(double i = 2.0; i < 8.0; i=i+0.1){
     mandelbrot_3(i);
-    printf("done");
     int wait = G_wait_key();
   }
 
