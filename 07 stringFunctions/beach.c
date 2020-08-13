@@ -427,7 +427,8 @@ int main()
 
   //seaweed left
   angle = 15;
-  G_rgb(0.364, 0.467, 0.410) ;
+  // G_rgb(0.364, 0.467, 0.410) ;
+  G_rgb(0.456, 0.598, 0.259) ;
   buildSeaweed(4);
   stringInterpreter(100, -150, 90, .8);
 
