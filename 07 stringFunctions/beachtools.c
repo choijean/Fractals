@@ -360,11 +360,11 @@ int main()
 
 
   G_rgb(0,0,0);
-  // //seaweed right
-  // angle = 17;
-  // buildSeaweed2(5);
-  // // stringInterpreter(500, -150, 90, 1);
-  // stringInterpreter2(90, .8);
+  //seaweed right
+  angle = 17;
+  buildSeaweed2(5);
+  // stringInterpreter(500, -150, 90, 1);
+  stringInterpreter2(90, .8);
 
   // //seaweed left
   // angle = 15;
@@ -378,11 +378,11 @@ int main()
   // // stringInterpreter(200, 475, 0, .07);
   // stringInterpreter2(90, .8);
 
-  //wave pt1
-  angle = 36 ;
-  buildTree(4);
-  // stringInterpreter(30, -385, 80, .8);
-  stringInterpreter2(90, .8);
+  // //wave pt1
+  // angle = 36 ;
+  // buildTree(4);
+  // // stringInterpreter(30, -385, 80, .8);
+  // stringInterpreter2(90, .8);
 
 
   // //===============================================
