@@ -86,7 +86,7 @@ int main()
 	key =  G_wait_key() ; // pause so user can see results
 
 	// save file
-	G_save_to_bmp_file("kochWinter.bmp") ;
+	G_save_to_bmp_file("kochWinter2.bmp") ;
 }
 
 void kochSnowflake(int depth, double *p, double *q){
@@ -285,8 +285,10 @@ void background(){
   
   dy = y1-y0 ;
 
-  sr = 0.117 ;  sg = 0.117 ;  sb = 0.263 ;
-  er = 0.581 ;  eg = 0.180 ;  eb = 0 ; 
+  // sr = 0.117 ;  sg = 0.117 ;  sb = 0.263 ;
+  // er = 0.581 ;  eg = 0.180 ;  eb = 0 ; 
+  sr = 0.234 ;  sg = 0.314 ;  sb = 0.510 ;
+  er = 0.849 ;  eg = 0.573;  eb = 0.238 ; 
 
   for(int k=0;k<=y0;k++){
     G_rgb(sr,sg,sb) ;
