@@ -25,10 +25,11 @@ double r, g, b ;
 
 //point coordinates
 double p[2];
+double ptoc[2];
 
 void mandelbrot() {
   sr = 0.0 ;  sg = 0.0 ;  sb = 0.0 ;
-  er = 1.0 ;  sg = 1.0 ;  sb = 1.0 ;
+  er = 1.0 ;  eg = 1.0 ;  eb = 1.0 ;
 
   // iterate through each pixel of window
   for (int x = 0; x < swidth/2; x++){
@@ -59,17 +60,28 @@ void mandelbrot() {
 
 void julia() {
   sr = 0.0 ;  sg = 0.0 ;  sb = 0.0 ;
-  er = 1.0 ;  sg = 1.0 ;  sb = 1.0 ;
+  er = 1.0 ;  eg = 1.0 ;  eb = 1.0 ;
+  double oldR, oldI;
+  ptoc[0] = ptoc[1] = 0;
 
   // iterate through each pixel of window
   for (int x = 0; x < swidth/2; x++){
     for (int y = 0; y < sheight; y++) {
 
+      //values for constant c
+      ptoc[0] = 2*((p[0]-(swidth/4.0))/(swidth/4.0));
+      ptoc[1] = 2*((p[1]-(sheight/2.0))/(sheight/2.0));
+      if(x == 0 && y == 0)
+      printf("%lf %lf\n", ptoc[0], ptoc[1]);
+
       // map to coordinating complex number
-      cx = 2*((p[0]-(swidth/4.0))/(swidth/4.0)) ;
-      cy = 2*((p[1]-(sheight/2.0))/(sheight/2.0)) ;
-      
-      c = cx + cy*I ;
+      cx = 2*((x-(swidth/4.0))/(swidth/4.0)) ;
+      cy = 2*((y-(sheight/2.0))/(sheight/2.0)) ;
+      oldR = cx;
+      oldI = cy;
+      cx = oldR*oldR - oldI*oldI + ptoc[0];
+      cy = 2 * oldR*oldI + ptoc[1];
+      c = -0.8*I ;
       z = 0;
       int k ;
       for (k = 0 ; k < reps ; k++) {
